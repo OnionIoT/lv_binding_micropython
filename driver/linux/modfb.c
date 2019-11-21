@@ -54,6 +54,7 @@ STATIC inline bool fbdev_active()
 STATIC mp_obj_t mp_lv_task_handler(mp_obj_t arg)
 {  
     lv_task_handler();
+    // printf("mp_lv_task_handler: running\n");
     return mp_const_none;
 }
 
@@ -64,9 +65,10 @@ STATIC void* tick_thread(void * data)
     (void)data;
 
     while(fbdev_active()) {
-        usleep(1);   /*Sleep for 1 millisecond*/
-        lv_tick_inc(1); /*Tell LittelvGL that 1 milliseconds were elapsed*/
+        usleep(5000);   /*Sleep for 5 millisecond*/
+        lv_tick_inc(5); /*Tell LittelvGL that 5 milliseconds were elapsed*/
         mp_sched_schedule((mp_obj_t)&mp_lv_task_handler_obj, mp_const_none);
+        // lv_task_handler();
     }
 
     return NULL;
