@@ -194,7 +194,7 @@ static bool xpt7603_read(lv_indev_data_t * data)
                 &mp_type_RuntimeError, "xpt7603 instance needs to be created before callback is called!"));
     static int16_t last_x = 0;
     static int16_t last_y = 0;
-    bool valid = true;
+    bool pressed = true;
 
     int16_t x = 0;
     int16_t y = 0;
@@ -220,18 +220,19 @@ static bool xpt7603_read(lv_indev_data_t * data)
         x = last_x;
         y = last_y;
         self->avg_last = 0;
-        valid = false;
+        pressed = false;
     }
     
     // printf("xpt7603_read: x = %d, y = %d\n", x,y);
 
     data->point.x = x;
     data->point.y = y;
-    data->state = valid == false ? LV_INDEV_STATE_REL : LV_INDEV_STATE_PR;
+    data->state = pressed == false ? LV_INDEV_STATE_REL : LV_INDEV_STATE_PR;
     
-    // printf("xpt7603_read data: x = %d, y = %d, valid = %d, state = %d\n", data->point.x, data->point.y, (valid == true ? 1 : 0), data->state);
+    // printf("xpt7603_read data: x = %d, y = %d, pressed = %d, state = %d\n", data->point.x, data->point.y, (pressed == true ? 1 : 0), data->state);
 
-    return valid;
+    // return pressed;
+    return false;
 }
 
 /**********************
