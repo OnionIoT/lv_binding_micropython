@@ -228,6 +228,8 @@ static bool xpt7603_read(lv_indev_data_t * data)
     data->point.x = x;
     data->point.y = y;
     data->state = valid == false ? LV_INDEV_STATE_REL : LV_INDEV_STATE_PR;
+    
+    // printf("xpt7603_read data: x = %d, y = %d, valid = %d, state = %d\n", data->point.x, data->point.y, (valid == true ? 1 : 0), data->state);
 
     return valid;
 }
