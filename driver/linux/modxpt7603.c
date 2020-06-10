@@ -180,6 +180,7 @@ static void xpt7603_corr(xpt7603_obj_t *self, int16_t * x, int16_t * y);
 static void xpt7603_avg(xpt7603_obj_t *self, int16_t * x, int16_t * y);
 static uint16_t om_i2c_read(int addr);
 static int om_read_gpio(int gpioNumber);
+static unsigned long int *regAddress;
 
 /**
  * Get the current position and state of the touchpad
@@ -292,22 +293,23 @@ static uint16_t om_i2c_read(int addr) {
 static int om_read_gpio(int gpioNumber) {
     int  m_mfd;
     int regAddrOffset = GPIO_REG_DATA0_OFFSET;
-    unsigned long int *regAddress;
     unsigned long int 	value = 0x0;
     int gpioVal;
     
-    if ((m_mfd = open("/dev/mem", O_RDWR)) < 0)
-	{
-		return EXIT_FAILURE;	// maybe return -1
-	}
-	regAddress = (unsigned long int*)mmap	(	NULL, 
-												1024, 
-												PROT_READ|PROT_WRITE, 
-												MAP_FILE|MAP_SHARED, 
-												m_mfd, 
-												GPIO_REG_BLOCK_ADDR
-											);
-    close(m_mfd);
+    if (regAddress == NULL){
+        if ((m_mfd = open("/dev/mem", O_RDWR)) < 0)
+    	{
+    		return EXIT_FAILURE;	// maybe return -1
+    	}
+    	regAddress = (unsigned long int*)mmap	(	NULL, 
+    												1024, 
+    												PROT_READ|PROT_WRITE, 
+    												MAP_FILE|MAP_SHARED, 
+    												m_mfd, 
+    												GPIO_REG_BLOCK_ADDR
+    											);
+        close(m_mfd);
+    }
     
 	// read the value 
 	value = *(regAddress + regAddrOffset);
