@@ -1,8 +1,15 @@
 
-# Bindings for LittelvGL
+# Bindings for LittlevGL
+
+Onion's fork of LVGL's lv_binding_micropython repo.
 
 See also [Micropython + LittlevGL](https://blog.littlevgl.com/2019-02-20/micropython-bindings) blog post.  
 For advanced features, see [Pure Micropython Display Driver](https://blog.littlevgl.com/2019-08-05/micropython-pure-display-driver) blog post.
+
+## Changes made by Onion
+
+* Configured default resolution and colour depth for compatibility with Omega2 Dash hardware
+* Added driver for touch IC used on the Omega2 Dash: [`driver/linux/modxpt7603.c`](./driver/linux/modxpt7603.c)
 
 ## Micropython
 
